@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".ListNotes">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/backButtonNotes"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_backbutton"
+            android:layout_marginLeft="30dp" />
+
+        <TextView
+            android:id="@+id/addNoteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/backButtonNotes"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/backButtonNotes"
+            android:text="NOTES"
+            android:textSize="40sp" />
+
+        </RelativeLayout>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/colorNoteColor3"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:text="Title:"/>
+
+            <View
+                android:layout_width="320dp"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:text="Description:"
+                android:layout_marginTop="40dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_note_add"
+        android:backgroundTint="@color/colorNoteColor3"
+        app:elevation="8dp"
+        app:borderWidth="0dp"
+        />
+
+
+</RelativeLayout>

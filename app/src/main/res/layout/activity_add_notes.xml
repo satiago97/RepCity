@@ -12,16 +12,37 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="ADD NOTES"
-        android:textSize="30sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/backButtonNotes"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_backbutton"
+            android:layout_marginLeft="30dp" />
+
+        <TextView
+            android:id="@+id/addNoteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/backButtonNotes"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/backButtonNotes"
+            android:text="ADD NOTES"
+            android:textSize="40sp" />
+
+    </RelativeLayout>
+
+
 
 
     <androidx.cardview.widget.CardView
@@ -29,7 +50,7 @@
         android:layout_height="500dp"
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         app:cardBackgroundColor="@color/colorNoteColor3"
         app:cardCornerRadius="16dp"
@@ -68,9 +89,21 @@
             android:textColorHint="@color/colorTextHint"
             android:gravity="center_horizontal" />
 
+
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/custom_button_notes"
+        android:text="Submit" />
 
 
 </LinearLayout>
+
+
 
 </RelativeLayout>
