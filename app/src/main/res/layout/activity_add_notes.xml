@@ -15,30 +15,33 @@
     android:orientation="vertical">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <Button
-            android:id="@+id/backButtonNotes"
-            android:layout_marginTop="25dp"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/backButton"
+            android:layout_width="38dp"
+            android:layout_height="34dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/ic_backbutton"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="107dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/ic_backbutton" />
 
         <TextView
             android:id="@+id/addNoteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/backButtonNotes"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/backButtonNotes"
-            android:text="ADD NOTES"
-            android:textSize="40sp" />
+            android:layout_marginLeft="22dp"
+            android:layout_marginBottom="-3dp"
+            android:layout_toRightOf="@+id/backButton"
+            android:text="ADD NOTE"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -52,12 +55,12 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
-        app:cardBackgroundColor="@color/colorNoteColor3"
+        app:cardBackgroundColor="@color/loginCard"
         app:cardCornerRadius="16dp"
         app:cardElevation="15dp">
 
         <EditText
-
+            android:id="@+id/submitNoteDescription"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginStart="20dp"
@@ -71,9 +74,11 @@
             android:inputType="textNoSuggestions"
             android:padding="10dp"
             android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/textColor"
             android:gravity="center_horizontal" />
 
         <EditText
+            android:id="@+id/submitNoteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -87,12 +92,14 @@
             android:inputType="textNoSuggestions"
             android:padding="10dp"
             android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/textColor"
             android:gravity="center_horizontal" />
 
 
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/submitNoteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"

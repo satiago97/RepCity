@@ -23,12 +23,12 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="179dp"
+            android:layout_height="185dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="@color/colorTextHint"
+            app:cardBackgroundColor="@color/loginCard"
             app:cardCornerRadius="16dp"
             app:cardElevation="15dp">
 
