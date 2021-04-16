@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repcity.ListNotes
 import com.example.repcity.R
 import com.example.repcity.entities.Notes
-import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 class NotesAdapter(private val
-                   context: Context, private val listener: INotesRVAdapter
+                   context: Context, private val listener: INotesRVAdapter, private val listener2: OnUpdateClickListener
 ) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>(){
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -23,19 +22,27 @@ class NotesAdapter(private val
 
 
     class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
         val titleItemView: TextView = itemView.findViewById(R.id.titleView)
         val descriptionItemView: TextView = itemView.findViewById(R.id.descriptionView)
         val btnDelete: Button = itemView.findViewById(R.id.deleteNoteButton)
+        val updateNotesButton: Button = itemView.findViewById(R.id.updateNoteButton)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val viewHolder = NotesViewHolder(LayoutInflater.from(context).inflate(R.layout.recyclerview_item, parent, false))
 
+
     viewHolder.btnDelete.setOnClickListener {
 
     listener.onItemClicked(notes[viewHolder.adapterPosition])
     }
+
+        viewHolder.updateNotesButton.setOnClickListener {
+            listener2.onUpdateClick(notes[viewHolder.adapterPosition])
+        }
+
         return viewHolder
     }
 
@@ -58,17 +65,16 @@ class NotesAdapter(private val
 
     override fun getItemCount() = notes.size
 
-
-
-
-
 }
-
 
 
 interface INotesRVAdapter{
     fun onItemClicked(notes: Notes)
+}
 
+
+interface OnUpdateClickListener{
+    fun onUpdateClick(notes: Notes)
 }
 
 

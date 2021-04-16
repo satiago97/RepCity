@@ -32,9 +32,6 @@ public abstract class NoteDB : RoomDatabase() {
                     notesDao.insert(note)
                     var note2 = Notes(2, "Nazare", "Boa noite")
                     notesDao.insert(note2)
-
-
-
                 }
             }
         }
