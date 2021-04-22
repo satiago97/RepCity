@@ -8,10 +8,10 @@ interface EndPoints {
 
 
 @FormUrlEncoded
-@POST("/api/login")
+@POST("api/login")
 fun userLogin(
     @Field("email") email: String,
     @Field("password") password: String
-):Call<LoginResponse>
+):Call<User>
 
 }

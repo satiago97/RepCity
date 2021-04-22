@@ -13,6 +13,7 @@ class SharedPrefManager private constructor(private val mCtx: Context){
     }
 
     val user: User
+
     get() {
         val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         return User(
