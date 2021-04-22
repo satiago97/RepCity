@@ -33,6 +33,7 @@
             app:cardElevation="15dp">
 
             <EditText
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -48,6 +49,7 @@
                 android:textColorHint="@color/colorTextHint" />
 
             <EditText
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -57,7 +59,7 @@
                 android:background="@drawable/edittext_login_background"
                 android:drawableLeft="@drawable/ic_user"
                 android:drawablePadding="10dp"
-                android:hint="Username"
+                android:hint="E-mail"
                 android:inputType="textNoSuggestions"
                 android:padding="10dp"
                 android:textColorHint="@color/colorTextHint" />

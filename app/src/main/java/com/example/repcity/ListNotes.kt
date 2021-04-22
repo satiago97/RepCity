@@ -74,8 +74,6 @@ class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
             val pdescription = data?.getStringExtra(AddNotes.EXTRA_REPLY_DESCRIPTION)
 
 
-
-
             if(ptitle != null && pdescription != null){
                 val note = Notes(title = ptitle, description = pdescription)
                 notesViewModel.insert(note)
@@ -91,8 +89,6 @@ class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
 
 
 
-
-
     override fun onUpdateClick(note: Notes){
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.activity_add_notes, null)
@@ -103,8 +99,6 @@ class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
 
         mDialogView.submitNoteTitle.setText(note.title)
          mDialogView.submitNoteDescription.setText(note.description)
-
-
 
 
             mDialogView.submitNoteButton.setOnClickListener {
