@@ -13,5 +13,6 @@
     <color name="buttonsColor">#ff5722</color>
     <color name="loginCard">#ff5722</color>
     <color name="fabButton">#dd2c00</color>
+    <color name= "fabButtonMapsAcitivty">#ff8a65</color>
 
 </resources>

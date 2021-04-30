@@ -21,5 +21,25 @@
 
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filterfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_filter_list_24"
+        android:backgroundTint="@color/fabButtonMapsAcitivty"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/insertfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_add_24"
+        android:backgroundTint="@color/fabButtonMapsAcitivty"
+        />
+
 </fragment>
 

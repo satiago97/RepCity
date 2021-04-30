@@ -6,4 +6,14 @@ data class User(
     val email: String?,
     val password: String?
 
+
+)
+
+data class Address(
+    val id_address: Int,
+    val tipo: String,
+    val descricao: String,
+    val lat: String,
+    val lng: String,
+    val utilizador: User
 )
