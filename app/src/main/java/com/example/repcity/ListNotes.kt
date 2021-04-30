@@ -19,9 +19,9 @@ import com.example.repcity.adapters.OnUpdateClickListener
 import com.example.repcity.entities.Notes
 import com.example.repcity.viewModel.NotesViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_add_notes.*
+
 import kotlinx.android.synthetic.main.activity_add_notes.view.*
-import kotlinx.android.synthetic.main.recyclerview_item.*
+
 
 class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
 

@@ -1,9 +1,9 @@
 package com.example.repcity
 
-import android.annotation.SuppressLint
+
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -12,7 +12,7 @@ import com.example.repcity.api.EndPoints
 import com.example.repcity.api.ServiceBuilder
 import com.example.repcity.api.User
 import com.example.repcity.storage.SharedPrefManager
-import com.google.gson.GsonBuilder
+
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
