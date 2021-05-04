@@ -30,4 +30,13 @@ fun userLogin(
     @GET("api/incidentes/obras")
     fun getIncidenteObras(): Call<List<Address>>
 
+    @FormUrlEncoded
+    @POST("api/inserirIncidente")
+    fun addPoint(@Field("tipo") tipo: String,
+                 @Field("descricao") descricao: String,
+                 @Field("id_user") id_user: Int,
+                 @Field("lat") lat: Double,
+                 @Field("lng") lng: Double
+    ): Call<Address>
+
 }

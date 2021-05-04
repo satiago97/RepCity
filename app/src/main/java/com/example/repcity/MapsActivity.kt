@@ -1,15 +1,27 @@
 package com.example.repcity
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
+import android.view.View
+
+import android.widget.RadioButton
+
+
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.example.repcity.api.Address
 import com.example.repcity.api.EndPoints
 import com.example.repcity.api.ServiceBuilder
 import com.example.repcity.storage.SharedPrefManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 
 
 import com.google.android.gms.maps.GoogleMap
@@ -17,8 +29,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,10 +42,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var adr: List<Address>
+    private lateinit var lastLocation: Location
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -43,6 +61,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             SharedPrefManager.getInstance(applicationContext).clear()
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
+        }
+
+        //botão de inserção de novo incidente
+
+        val insertFab = findViewById<FloatingActionButton>(R.id.insertfab)
+        insertFab.setOnClickListener {
+
+            val intent = Intent(this@MapsActivity, InsertIncident::class.java)
+            intent.putExtra("lat", lastLocation.latitude)
+            intent.putExtra("lng", lastLocation.longitude)
+
+            startActivity(intent)
+
         }
 
         val fabfab = findViewById<FloatingActionButton>(R.id.filterfab)
@@ -67,11 +98,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             dialog.show()
         }
 
-        val insertFab = findViewById<FloatingActionButton>(R.id.insertfab)
-        insertFab.setOnClickListener {
 
+        val id = getSharedPreferences("my_shared_preff", Context.MODE_PRIVATE).getInt("id", 0)
 
-        }
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
 
@@ -88,18 +117,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-                        if(address.tipo=="Acidente"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        }
-                        else if(address.tipo=="Incendio"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        }else if(address.tipo=="Outro"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }
-                        else if(address.tipo=="Construction"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
 
+                        if(id == address.id_user){
+                            mMap.addMarker(MarkerOptions().position(position).title(address.tipo).snippet(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        }else {
+                            mMap.addMarker(MarkerOptions().position(position).title(address.tipo).snippet(address.descricao)).setIcon(
+                                BitmapDescriptorFactory.defaultMarker(
+                                    BitmapDescriptorFactory.HUE_YELLOW
+                                )
+                            )
                         }
+
 
                     }
                 }
@@ -109,6 +137,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+
+
+
 
 
 
@@ -127,10 +158,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        /*  val viana = LatLng(41.6946, -8.83016)
-          mMap.addMarker(MarkerOptions().position(viana).title("Marker in Sydney"))
-          mMap.moveCamera(CameraUpdateFactory.newLatLng(viana))*/
+        mMap.setOnMarkerClickListener{marker ->
+            if(marker.isInfoWindowShown) {
+                marker.hideInfoWindow()
+            }else{
+                marker.showInfoWindow()
+
+            }
+            true
+        }
+
+       setUpMap()
     }
 
 
@@ -164,18 +202,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-                        if(address.tipo=="Acidente"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        }
-                        else if(address.tipo=="Incendio"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        }else if(address.tipo=="Outro"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }
-                        else if(address.tipo=="Construction"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-
-                        }
+                        mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
 
                     }
                 }
@@ -205,18 +232,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-                        if(address.tipo=="Acidente"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        }
-                        else if(address.tipo=="Incendio"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        }else if(address.tipo=="Outro"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }
-                        else if(address.tipo=="Construction"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-
-                        }
+                        mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
 
                     }
                 }
@@ -248,18 +264,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-                        if(address.tipo=="Acidente"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        }
-                        else if(address.tipo=="Incendio"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        }else if(address.tipo=="Outro"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }
-                        else if(address.tipo=="Construction"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-
-                        }
+                        mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
 
                     }
                 }
@@ -292,18 +297,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-                        if(address.tipo=="Acidente"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        }
-                        else if(address.tipo=="Incendio"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        }else if(address.tipo=="Outro"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }
-                        else if(address.tipo=="Construction"){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-
-                        }
+                        mMap.addMarker(MarkerOptions().position(position).title(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
 
                     }
                 }
@@ -318,5 +312,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
+    fun setUpMap(){
+        if(ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+                return
+        }else{
+            mMap.isMyLocationEnabled = true
+
+            fusedLocationClient.lastLocation.addOnSuccessListener(this){
+                location-> if(location != null){
+                lastLocation = location
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+            }
+            }
+        }
+    }
+
+    companion object{
+        private const val   LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+
+
+
+
+
+
+
 
 }
+

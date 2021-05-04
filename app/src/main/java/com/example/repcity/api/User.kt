@@ -15,5 +15,5 @@ data class Address(
     val descricao: String,
     val lat: String,
     val lng: String,
-    val utilizador: User
+    val id_user: Int
 )

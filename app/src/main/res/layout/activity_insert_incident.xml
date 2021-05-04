@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+
+        <RadioButton
+            android:id="@+id/radioFire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fire"
+
+
+            />
+        <RadioButton
+            android:id="@+id/radioAccident"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accident"
+          />
+        <RadioButton
+            android:id="@+id/radioConstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Constructions"
+           />
+        <RadioButton
+            android:id="@+id/radioOthers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Others"
+           />
+
+
+
+
+    </RadioGroup>
+
+
+    <EditText
+        android:id="@+id/descriptionIncident"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="40dp"
+        android:hint="Description"
+        android:inputType="textMultiLine"/>
+
+
+    <Button
+        android:id="@+id/submitIncidentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/custom_button_notes"
+        android:text="Submit"/>
+
+
+
+
+
+
+
+
+
+</LinearLayout>
