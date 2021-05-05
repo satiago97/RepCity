@@ -3,13 +3,14 @@ package com.example.repcity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-import android.view.View
-
-import android.widget.RadioButton
 
 
 import android.widget.Toast
@@ -30,26 +31,54 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_maps.*
 
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
+
     private lateinit var adr: List<Address>
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        var sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        var list = sm.getSensorList(Sensor.TYPE_ACCELEROMETER)
+        var se = object : SensorEventListener {
+            override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
+            }
+
+            override fun onSensorChanged(sensorEvent: SensorEvent?) {
+                var values = sensorEvent?.values
+
+                val df = DecimalFormat("#.##")
+                var x = df.format(values?.get(0))
+                var y = df.format(values?.get(1))
+                var z = df.format(values?.get(2))
+
+                df.roundingMode = RoundingMode.CEILING
+                coordenadas.setText("X=$x\nY=$y\nZ=$z")
+
+            }
+        }
+
+        sm.registerListener(se, list.get(0), SensorManager.SENSOR_DELAY_NORMAL)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -117,15 +146,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             address.lat.toDouble(),
                             address.lng.toDouble()
                         )
-
                         if(id == address.id_user){
-                            mMap.addMarker(MarkerOptions().position(position).title(address.tipo).snippet(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        }else {
-                            mMap.addMarker(MarkerOptions().position(position).title(address.tipo).snippet(address.descricao)).setIcon(
+                            mMap.addMarker(MarkerOptions().position(position).title(address.id_user.toString()).snippet(address.descricao)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            }
+                        else {
+                            mMap.addMarker(MarkerOptions().position(position).title(address.id_user.toString()).snippet(address.descricao)).setIcon(
                                 BitmapDescriptorFactory.defaultMarker(
-                                    BitmapDescriptorFactory.HUE_YELLOW
-                                )
-                            )
+                                    BitmapDescriptorFactory.HUE_YELLOW))
+
+
                         }
 
 
@@ -137,11 +166,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
-
-
-
-
 
 
     }
@@ -158,17 +182,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        mMap.setOnMarkerClickListener{marker ->
-            if(marker.isInfoWindowShown) {
-                marker.hideInfoWindow()
-            }else{
-                marker.showInfoWindow()
 
-            }
+
+
+
+        mMap.setOnMarkerClickListener { marker ->
+           if (marker.isInfoWindowShown) {
+                marker.hideInfoWindow()
+            } else {
+                marker.showInfoWindow()
+           }
             true
         }
 
+
+        mMap.setOnInfoWindowClickListener(this)
+
+
+
        setUpMap()
+    }
+
+    override fun onInfoWindowClick(marker: Marker){
+        val id = getSharedPreferences("my_shared_preff", Context.MODE_PRIVATE).getInt("id", 0)
+        if(marker.title.equals(id.toString())){
+            Toast.makeText(this, "my marker", Toast.LENGTH_SHORT).show()
+        }else{
+
+            Toast.makeText(this, "not my marker", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".AddNotes">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/ic_backbutton" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        app:cardBackgroundColor="@color/loginCard"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="15dp">
+
+        <EditText
+            android:id="@+id/submitNoteDescription"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/edittext_login_background"
+            android:textAlignment="center"
+            android:drawablePadding="10dp"
+            android:hint="Description"
+            android:inputType="textNoSuggestions"
+            android:padding="10dp"
+            android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/textColor"
+            android:gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/submitNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittext_login_background"
+            android:textAlignment="center"
+            android:drawablePadding="10dp"
+            android:hint="Title"
+            android:inputType="textNoSuggestions"
+            android:padding="10dp"
+            android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/textColor"
+            android:gravity="center_horizontal" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/submitNoteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/custom_button_notes"
+        android:text="Submit" />
+
+
+</LinearLayout>
+
+
+
+</RelativeLayout>

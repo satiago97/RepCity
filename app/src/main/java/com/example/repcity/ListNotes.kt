@@ -2,12 +2,20 @@ package com.example.repcity
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.Sensor.TYPE_LIGHT
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +31,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_add_notes.view.*
 
 
-class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
+class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener, SensorEventListener {
+
+    private lateinit var sensorManager: SensorManager
+    private var brightness: Sensor? = null
+
 
 
     lateinit var notesViewModel: NotesViewModel
@@ -34,6 +46,11 @@ class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_notes)
+
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        setUpSensorStuff()
 
 
         //backbutton
@@ -118,6 +135,43 @@ class ListNotes : AppCompatActivity(), INotesRVAdapter, OnUpdateClickListener {
                     note.id?.let { it1 -> notesViewModel.update(it1, tituloUpdated, descriptionUpdated) }
                 }
             }
+    }
+
+
+    private fun setUpSensorStuff(){
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        brightness = sensorManager.getDefaultSensor(TYPE_LIGHT)
+
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        val layout = findViewById<RelativeLayout>(R.id.relativeListNotes)
+        if(event?.sensor?.type == Sensor.TYPE_LIGHT){
+            val light = event.values[0]
+
+            if(light <= 11){
+                layout.setBackgroundResource(R.color.colorPrimary)
+            }else{
+                layout.setBackgroundResource(R.color.colorPrimaryDark)
+
+            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, brightness, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
     }
 
 

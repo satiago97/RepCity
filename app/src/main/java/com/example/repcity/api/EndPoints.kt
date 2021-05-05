@@ -39,4 +39,8 @@ fun userLogin(
                  @Field("lng") lng: Double
     ): Call<Address>
 
+
+    @DELETE("api/eliminarIncidente/{id}")
+    fun deletePoint(@Path("id") id: Int): Call<Address>
+
 }
